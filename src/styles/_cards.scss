@@ -1,0 +1,28 @@
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-f-400);
+  margin-bottom: var(--size-f-400);
+}
+
+.card {
+  display: block;
+  min-width: min(100%, #{breakpoint("sm")});
+  padding-top: var(--size-v-400);
+  padding-right: var(--size-v-400);
+  padding-bottom: var(--size-v-400);
+  padding-left: var(--size-v-400);
+  background-color: var(--clr-gray-600);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--clr-gray-900);
+    background-color: var(--clr-primary-400);
+  }
+
+  &__date {
+    font-size: var(--fz-sm);
+    font-style: italic;
+  }
+}

@@ -1,0 +1,12 @@
+.primary-footer {
+  margin-top: var(--size-v-400);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media screen and (min-width: #{breakpoint("md")}) {
+  .primary-footer {
+    padding-left: var(--size-v-400);
+    padding-right: var(--size-v-400);
+  }
+}

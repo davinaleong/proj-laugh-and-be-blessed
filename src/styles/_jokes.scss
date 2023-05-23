@@ -1,0 +1,7 @@
+.joke-content {
+  max-width: 75ch;
+
+  p:not(:last-child) {
+    margin-bottom: var(--size-v-400);
+  }
+}
