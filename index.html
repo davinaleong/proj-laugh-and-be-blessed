@@ -22,7 +22,7 @@
     <title>Laugh and be Blessed</title>
 
     <link rel="stylesheet" href="./src/styles/main.scss" />
-    <script defer src="./src/scripts/main.ts"></script>
+    <script defer type="module" src="./src/scripts/main.ts"></script>
   </head>
   <body id="top" class="text-gray-100 bg-gray-700 p-v-x-400">
     <header class="text-primary-500 primary-header">
@@ -43,74 +43,18 @@
         <p>Click on one of the cards below to view a joke or riddle.</p>
       </section>
 
-      <section>
-        <h2 class="section__title">A</h2>
-
-        <div class="card-grid">
-          <a class="card shadow-v-br-400">
-            <h3 class="card__title">Lorem ipsum dolor</h3>
-            <p class="card__date">DD/MMM/YYYY</p>
-          </a>
-
-          <a class="card shadow-v-br-400">
-            <h3 class="card__title">Lorem ipsum dolor</h3>
-            <p class="card__date">DD/MMM/YYYY</p>
-          </a>
-
-          <a class="card shadow-v-br-400">
-            <h3 class="card__title">Lorem ipsum dolor</h3>
-            <p class="card__date">DD/MMM/YYYY</p>
-          </a>
-
-          <a class="card shadow-v-br-400">
-            <h3 class="card__title">Lorem ipsum dolor</h3>
-            <p class="card__date">DD/MMM/YYYY</p>
-          </a>
-
-          <a class="card shadow-v-br-400">
-            <h3 class="card__title">Lorem ipsum dolor</h3>
-            <p class="card__date">DD/MMM/YYYY</p>
-          </a>
-        </div>
-      </section>
-
-      <section>
-        <h2 class="section__title">B</h2>
-
-        <div class="card-grid">
-          <a class="card shadow-v-br-400">
-            <h3 class="card__title">Lorem ipsum dolor</h3>
-            <p class="card__date">DD/MMM/YYYY</p>
-          </a>
-
-          <a class="card shadow-v-br-400">
-            <h3 class="card__title">Lorem ipsum dolor</h3>
-            <p class="card__date">DD/MMM/YYYY</p>
-          </a>
-
-          <a class="card shadow-v-br-400">
-            <h3 class="card__title">Lorem ipsum dolor</h3>
-            <p class="card__date">DD/MMM/YYYY</p>
-          </a>
-
-          <a class="card shadow-v-br-400">
-            <h3 class="card__title">Lorem ipsum dolor</h3>
-            <p class="card__date">DD/MMM/YYYY</p>
-          </a>
-
-          <a class="card shadow-v-br-400">
-            <h3 class="card__title">Lorem ipsum dolor</h3>
-            <p class="card__date">DD/MMM/YYYY</p>
-          </a>
-        </div>
-      </section>
+      <div data-element="jokes-list">
+        <section>
+          <h2 class="section__title">Loading&hellip;</h2>
+        </section>
+      </div>
     </main>
     <footer class="primary-footer">
       <p class="text-primary-500 ta-center fz-sm">
-        <em
-          >Laugh and be Blessed &copy; Davina Leong,
-          <span data-element="copyright-year">2023</span></em
-        >
+        <em>
+          Laugh and be Blessed &copy; Davina Leong,
+          <span data-element="copyright-year">2023</span>
+        </em>
       </p>
     </footer>
 
