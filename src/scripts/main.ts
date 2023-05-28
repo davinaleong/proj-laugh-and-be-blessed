@@ -33,7 +33,7 @@ async function getJokes() {
   common.printFunction(`getJokes`)
 
   let thisData: any = {
-    jokes: [],
+    jokeGroups: [],
     timestamp: 0,
   }
 
@@ -53,7 +53,10 @@ async function getJokes() {
 
     if (data.status === strSuccess) {
       thisData = {
-        jokes: data?.jokes?.data,
+        jokeGroups: data?.jokes?.data.reduce(function (jokeGroups, joke) {
+          jokeGroups[joke.first_character] = joke
+          return jokeGroups
+        }, {}),
         timestamp: common.now.unix(),
       }
 
@@ -62,7 +65,7 @@ async function getJokes() {
   }
   // console.log(`thisData`, thisData)
 
-  return thisData.jokes
+  return thisData.jokeGroups
 }
 
 async function renderJokesList(jokes: any) {
