@@ -45,7 +45,9 @@ function renderJoke() {
             "<br>"
           )}</div>
 
-          <p><em>${dayjs(created_at).format(common.strDateFormat)}</em></p>
+          <p class="joke-date">Written on: ${dayjs(created_at).format(
+            common.strDateFormat
+          )}</p>
         </section>
     `
   }
