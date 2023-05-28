@@ -16,6 +16,8 @@ export function printFunction(name: string, params: any = {}): void {
 
 export function setLocalStorageItem(key: string, item: string): void {
   printFunction(`setLocalStorageItem`, { key, item })
+
+  localStorage.setItem(key, item)
 }
 
 export function getLocalStorageItem(key: string): string | null {
