@@ -23,14 +23,14 @@ const searchInputEl: HTMLInputElement | null = document.querySelector(
 )
 
 // Call Functions
-const jokes = await getJokes()
-renderJokesList(jokes)
-searchJokes(jokes)
+const jokeGroups = await getJokeGroups()
+renderJokesList(jokeGroups)
+// searchJokes(jokeGroups)
 renderCopyrightYear()
 
 // Functions
-async function getJokes() {
-  common.printFunction(`getJokes`)
+async function getJokeGroups() {
+  common.printFunction(`getJokeGroups`)
 
   let thisData: any = {
     jokeGroups: [],
@@ -45,7 +45,10 @@ async function getJokes() {
   const nowTimestamp = dayjs(common.now.unix())
   const timeDiff = nowTimestamp.diff(thisDataTimestamp, "days")
 
-  if (thisData.jokes.length <= 0 || timeDiff > cookieLength) {
+  if (
+    (thisData.jokeGroups && thisData.jokeGroups.length <= 0) ||
+    timeDiff > 1
+  ) {
     console.log(`Fetch new jokes`)
 
     const response = await window.fetch(url)
@@ -54,7 +57,8 @@ async function getJokes() {
     if (data.status === strSuccess) {
       thisData = {
         jokeGroups: data?.jokes?.data.reduce(function (jokeGroups, joke) {
-          jokeGroups[joke.first_character] = joke
+          jokeGroups[joke.first_character] = []
+          jokeGroups[joke.first_character].push(joke)
           return jokeGroups
         }, {}),
         timestamp: common.now.unix(),
@@ -68,31 +72,52 @@ async function getJokes() {
   return thisData.jokeGroups
 }
 
-async function renderJokesList(jokes: any) {
+async function renderJokesList(jokeGroups: any) {
   common.printFunction(`renderJokesList`)
 
-  console.log(`jokes`, jokes)
+  console.log(`jokeGroups`, jokeGroups)
 
-  if (jokesListEl && jokes && jokes.length > 0) {
+  if (jokesListEl && jokeGroups) {
     jokesListEl.innerHTML = ``
 
+    /*
+    <section>
+          <h2 class="section__title">Retrieving joke list &hellip;</h2>
+        </section>
+    */
+
+    let sectionsHtml = ``
     let cardsHtml = ``
-    jokes.forEach(({ slug, title, created_at }: any) => {
-      cardsHtml += `
-          <a href="./joke.html?slug=${slug}" class="card shadow-v-br-400">
-            <h3 class="card__title">${title}</h3>
-            <p class="card__date">Written on: ${dayjs(created_at).format(
-              common.strDateFormat
-            )}</p>
-          </a>
-        `
+    const jokeGroupKeys: any = Object.keys(jokeGroups)
+    console.log(`jokeGroupKeys`, jokeGroupKeys)
+
+    jokeGroupKeys.forEach(function (jokeGroupKey) {
+      const sectionTitle = `<h2 class="section__title">${jokeGroupKey}</h2>`
+
+      const jokes = jokeGroups[jokeGroupKey]
+      console.log(`jokes`, jokes)
+
+      jokes.forEach(function ({ title, slug, created_at }) {
+        cardsHtml += `
+            <a href="./joke.html?slug=${slug}" class="card shadow-v-br-400">
+              <h3 class="card__title">${title}</h3>
+              <p class="card__date">Written on: ${dayjs(created_at).format(
+                common.strDateFormat
+              )}</p>
+            </a>
+          `
+      })
+
+      sectionsHtml += `
+      <section>
+        ${sectionTitle}
+
+        <div class="card-grid">${cardsHtml}</div>
+      </section>
+      `
     })
 
-    jokesListEl.innerHTML = `
-        <section>
-          <div class="card-grid">${cardsHtml}</div>
-        </section>
-      `
+    jokesListEl.innerHTML = sectionsHtml
   }
 }
 
