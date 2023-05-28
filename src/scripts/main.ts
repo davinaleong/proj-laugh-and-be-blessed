@@ -1,50 +1,41 @@
 import dayjs from "dayjs"
+import * as common from "./common"
 
-console.log(`main.js loaded`)
+console.log(`main.ts loaded`)
 
-// Attributes
-const strJokes: string = `jokes`
+// Variables
 const strError: string = `ERROR`
 const strSuccess: string = `SUCCESS`
-const strDateFormat: string = "DD MMM YYYY"
 const cookieLength = 14
 
 const url: string = `https://davinas-cms.herokuapp.com/api/davdevs/jokes?perPage=1000&column=name`
 const year: number = 2023
-const now = dayjs()
-
-const dataElementAttr: string = `data-element`
 
 const jokesListEl: HTMLInputElement | null = document.querySelector(
-  `[${dataElementAttr}="jokes-list"]`
+  `[${common.dataElementAttr}="jokes-list"]`
 ) as HTMLInputElement | null
 const copyrightYearEl: HTMLInputElement | null = document.querySelector(
-  `[${dataElementAttr}="copyright-year"]`
+  `[${common.dataElementAttr}="copyright-year"]`
 ) as HTMLInputElement | null
 
-// getJokes()
 renderJokesList()
 renderCopyrightYear()
 
 // Functions
-function printFunction(name: string, params: any = {}): void {
-  console.log(`fn: ${name}(${JSON.stringify(params)})`)
-}
-
 async function getJokes() {
-  printFunction(`getJokes`)
+  common.printFunction(`getJokes`)
 
   let thisData: any = {
     jokes: [],
     timestamp: 0,
   }
 
-  const storageData = getLocalStorageItem(strJokes)
+  const storageData = common.getLocalStorageItem(common.strJokes)
   thisData = JSON.parse(String(storageData))
   // console.log(`thisData`, thisData)
 
   const thisDataTimestamp = dayjs(thisData.timestamp)
-  const nowTimestamp = dayjs(now.unix())
+  const nowTimestamp = dayjs(common.now.unix())
   const timeDiff = nowTimestamp.diff(thisDataTimestamp, "days")
 
   if (thisData.jokes.length <= 0 || timeDiff > cookieLength) {
@@ -56,10 +47,10 @@ async function getJokes() {
     if (data.status === strSuccess) {
       thisData = {
         jokes: data?.jokes?.data,
-        timestamp: now.unix(),
+        timestamp: common.now.unix(),
       }
 
-      setLocalStorageItem(strJokes, JSON.stringify(thisData))
+      common.setLocalStorageItem(common.strJokes, JSON.stringify(thisData))
     }
   }
   // console.log(`thisData`, thisData)
@@ -68,7 +59,7 @@ async function getJokes() {
 }
 
 async function renderJokesList() {
-  printFunction(`renderJokesList`)
+  common.printFunction(`renderJokesList`)
 
   if (jokesListEl) {
     jokesListEl.innerHTML = ``
@@ -78,9 +69,11 @@ async function renderJokesList() {
     let cardsHtml = ``
     jokes.forEach(({ slug, title, created_at }: any) => {
       cardsHtml += `
-          <a href="./jokes.html?slug=${slug}" class="card shadow-v-br-400">
+          <a href="./joke.html?slug=${slug}" class="card shadow-v-br-400">
             <h3 class="card__title">${title}</h3>
-            <p class="card__date">${dayjs(created_at).format(strDateFormat)}</p>
+            <p class="card__date">${dayjs(created_at).format(
+              common.strDateFormat
+            )}</p>
           </a>
         `
     })
@@ -94,36 +87,13 @@ async function renderJokesList() {
 }
 
 function renderCopyrightYear() {
-  printFunction(`renderCopyrightYear`)
+  common.printFunction(`renderCopyrightYear`)
 
   if (copyrightYearEl) {
     const copyrightYear: any =
-      Number(now.format(`YYYY`)) !== year
-        ? `${year} &ndash; ${now.format(`YYYY`)}`
+      Number(common.now.format(`YYYY`)) !== year
+        ? `${year} &ndash; ${common.now.format(`YYYY`)}`
         : `${year}`
     copyrightYearEl.innerHTML = copyrightYear
   }
-}
-
-function setLocalStorageItem(key: string, item: string): void {
-  printFunction(`setLocalStorageItem`, { key, item })
-
-  /*
-  window.localStorage.setItem(
-        ConfigData.cacheKey,
-        JSON.stringify(newSettings)
-      )
-  */
-  localStorage.setItem(key, item)
-}
-
-function getLocalStorageItem(key: string): string | null {
-  printFunction(`getLocalStorageItem`, { key })
-
-  /*
-  const cachedSettings = JSON.parse(
-      window.localStorage.getItem(ConfigData.cacheKey)
-    )
-  */
-  return localStorage.getItem(key)
 }
