@@ -23,6 +23,10 @@
     background-color: var(--clr-primary-400);
   }
 
+  &[aria-hidden="true"] {
+    display: none;
+  }
+
   &__date {
     font-size: var(--fz-sm);
     font-style: italic;

@@ -121,7 +121,7 @@ async function renderJokesList(jokeGroups: any) {
   }
 }
 
-function searchJokes(jokes: any): void {
+function searchJokes(jokeGroups: any): void {
   common.printFunction(`searchJokes`)
 
   if (searchInputEl) {
@@ -129,17 +129,31 @@ function searchJokes(jokes: any): void {
       event.preventDefault()
       const search: string = event.target.value
 
-      let thisJokes = jokes
+      let thisJokeGroups = jokeGroups
 
       if (search && search !== "") {
         console.log(`search`, search)
-        thisJokes = jokes.filter(({ name }) =>
-          name.toLowerCase().includes(search.toLowerCase())
-        )
+        // thisJokeGroups = jokes.filter(({ name }) =>
+        //   name.toLowerCase().includes(search.toLowerCase())
+        // )
+        let joke: any = null
+        const thisJokeGroupKeys = Object.keys(thisJokeGroups)
+        thisJokeGroupKeys.forEach(function (thisJokeGroupKey) {
+          const jokes = thisJokeGroupKey[thisJokeGroupKey]
+          joke = jokes.filter(({ title }) =>
+            title.toLowerCase().includes(search.toLowerCase())
+          )
+        })
+
+        if (joke && joke.first_character) {
+          thisJokeGroups = {}
+          thisJokeGroups[joke.first_character] = []
+          thisJokeGroups[joke.first_character].push(joke)
+        }
       }
 
-      console.log(`thisJokes`, thisJokes)
-      renderJokesList(thisJokes)
+      console.log(`thisJokeGroups`, thisJokeGroups)
+      renderJokesList(thisJokeGroups)
     })
   }
 }
