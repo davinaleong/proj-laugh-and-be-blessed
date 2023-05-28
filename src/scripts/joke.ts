@@ -8,6 +8,7 @@ const jokeEl: HTMLInputElement | null = document.querySelector(
   `[${common.dataElementAttr}="joke"]`
 )
 
+// Call Functions
 renderJoke()
 
 // Functions

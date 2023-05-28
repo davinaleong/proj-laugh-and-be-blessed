@@ -18,6 +18,7 @@ const copyrightYearEl: HTMLInputElement | null = document.querySelector(
   `[${common.dataElementAttr}="copyright-year"]`
 ) as HTMLInputElement | null
 
+// Call Functions
 renderJokesList()
 renderCopyrightYear()
 
