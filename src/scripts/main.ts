@@ -74,10 +74,10 @@ async function renderJokesList(jokes: any) {
     jokesListEl.innerHTML = ``
 
     let cardsHtml = ``
-    jokes.forEach(({ slug, title, created_at }: any) => {
+    jokes.forEach(({ slug, title, created_at }: any, index: number) => {
       cardsHtml += `
           <a href="./joke.html?slug=${slug}" class="card shadow-v-br-400">
-            <h3 class="card__title">${title}</h3>
+            <h3 class="card__title">${index + 1}) ${title}</h3>
             <p class="card__date">Written on: ${dayjs(created_at).format(
               common.strDateFormat
             )}</p>
