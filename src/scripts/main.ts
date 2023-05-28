@@ -18,8 +18,14 @@ const copyrightYearEl: HTMLInputElement | null = document.querySelector(
   `[${common.dataElementAttr}="copyright-year"]`
 ) as HTMLInputElement | null
 
+const searchInputEl: HTMLInputElement | null = document.querySelector(
+  `[${common.dataElementAttr}="search-form"] input`
+)
+
 // Call Functions
-renderJokesList()
+const jokes = await getJokes()
+renderJokesList(jokes)
+searchJokes(jokes)
 renderCopyrightYear()
 
 // Functions
@@ -59,13 +65,13 @@ async function getJokes() {
   return thisData.jokes
 }
 
-async function renderJokesList() {
+async function renderJokesList(jokes: any) {
   common.printFunction(`renderJokesList`)
 
-  if (jokesListEl) {
-    jokesListEl.innerHTML = ``
+  console.log(`jokes`, jokes)
 
-    const jokes = await getJokes()
+  if (jokesListEl && jokes && jokes.length > 0) {
+    jokesListEl.innerHTML = ``
 
     let cardsHtml = ``
     jokes.forEach(({ slug, title, created_at }: any) => {
@@ -84,6 +90,29 @@ async function renderJokesList() {
           <div class="card-grid">${cardsHtml}</div>
         </section>
       `
+  }
+}
+
+function searchJokes(jokes: any): void {
+  common.printFunction(`searchJokes`)
+
+  if (searchInputEl) {
+    searchInputEl.addEventListener(`input`, function (event) {
+      event.preventDefault()
+      const search: string = event.target.value
+
+      let thisJokes = jokes
+
+      if (search && search !== "") {
+        console.log(`search`, search)
+        thisJokes = jokes.filter(({ name }) =>
+          name.toLowerCase().includes(search.toLowerCase())
+        )
+      }
+
+      console.log(`thisJokes`, thisJokes)
+      renderJokesList(thisJokes)
+    })
   }
 }
 
