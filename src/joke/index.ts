@@ -1,5 +1,5 @@
 import dayjs from "dayjs"
-import * as common from "./common"
+import * as common from "../scripts/common"
 
 console.log(`joke.ts loaded`)
 

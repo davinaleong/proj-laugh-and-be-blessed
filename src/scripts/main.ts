@@ -34,11 +34,13 @@ async function getJokes() {
 
   let thisData: any = {
     jokes: [],
-    timestamp: 0,
+    timestamp: dayjs().unix(),
   }
 
   const storageData = common.getLocalStorageItem(common.strJokes)
-  thisData = JSON.parse(String(storageData))
+  if (storageData) {
+    thisData = JSON.parse(String(storageData))
+  }
   // console.log(`thisData`, thisData)
 
   const thisDataTimestamp = dayjs(thisData.timestamp)
@@ -76,7 +78,7 @@ async function renderJokesList(jokes: any) {
     let cardsHtml = ``
     jokes.forEach(({ slug, title, created_at }: any, index: number) => {
       cardsHtml += `
-          <a href="./joke.html?slug=${slug}" class="card shadow-v-br-400">
+          <a href="./joke?slug=${slug}" class="card shadow-v-br-400">
             <h3 class="card__title">${index + 1}) ${title}</h3>
             <p class="card__date">Written on: ${dayjs(created_at).format(
               common.strDateFormat
