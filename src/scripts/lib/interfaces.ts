@@ -3,6 +3,7 @@ export interface LibInterface {
   LibLocalStorage: LibLocalStorageInterface
   LibElement: LibElementInterface
   LibDate: LibDateInterface
+  LibCms: LibCmsInterface
 }
 
 export interface LibLogInterface {
@@ -33,4 +34,14 @@ export interface LibDateInterface {
   DATE_FORMAT_YYYY: string
   DATE_FORMAT_DD_MMM_YYYY: string
   now: any
+}
+
+export interface LibCmsInterface {
+  SOURCE: string
+  PER_PAGE: number
+  COLUMN: string
+  STATUS_ERROR: string
+  STATUS_SUCCESS: string
+  url(source?: string, perPage?: number, column?: string): string
+  get(url: string): Promise<any>
 }

@@ -4,11 +4,13 @@ function getAll(
   name: string,
   parent: HTMLElement | null = null
 ): NodeListOf<HTMLElement> {
+  const query: string = `[${DATA_ELEMENT_ATTR}="${name}"]`
+
   if (parent) {
-    return parent.querySelectorAll(`[${DATA_ELEMENT_ATTR}]="${name}"`)
+    return parent.querySelectorAll(query)
   }
 
-  return document.querySelectorAll(`[${DATA_ELEMENT_ATTR}]="${name}"`)
+  return document.querySelectorAll(query)
 }
 
 export default getAll
