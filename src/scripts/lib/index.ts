@@ -1,3 +1,12 @@
-export { default as LibLog } from "./log"
-export { default as LibLocalStorage } from "./localStorage"
-export { default as LibElement } from "./element"
+import LibLog from "./log"
+import LibLocalStorage from "./localStorage"
+import LibElement from "./element"
+import { LibInterface } from "./interfaces"
+
+const Lib: LibInterface = {
+  LibLog,
+  LibLocalStorage,
+  LibElement,
+}
+
+export default Lib

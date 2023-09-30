@@ -1,6 +1,9 @@
 import "./../styles/app.scss"
 import dayjs from "dayjs"
-import * as common from "./common"
+// import * as common from "./common"
+import LibLog from "./lib/log"
+import LibLocalStorage from "./lib/localStorage"
+import LibElement from "./lib/element"
 
 console.log(`main.ts loaded`)
 
@@ -12,16 +15,20 @@ const cookieLength = 14
 const url: string = `https://proj-davinas-cms.test/api/davdevs/jokes?perPage=1000&column=name`
 const year: number = 2023
 
-const jokesListEl: HTMLInputElement | null = document.querySelector(
-  `[${common.dataElementAttr}="jokes-list"]`
-) as HTMLInputElement | null
-const copyrightYearEl: HTMLInputElement | null = document.querySelector(
-  `[${common.dataElementAttr}="copyright-year"]`
-) as HTMLInputElement | null
+// const jokesListEl: HTMLInputElement | null = document.querySelector(
+//   `[${common.dataElementAttr}="jokes-list"]`
+// ) as HTMLInputElement | null
+// const copyrightYearEl: HTMLInputElement | null = document.querySelector(
+//   `[${common.dataElementAttr}="copyright-year"]`
+// ) as HTMLInputElement | null
 
-const searchInputEl: HTMLInputElement | null = document.querySelector(
-  `[${common.dataElementAttr}="search-form"] input`
-)
+// const searchInputEl: HTMLInputElement | null = document.querySelector(
+//   `[${common.dataElementAttr}="search-form"] input`
+// )
+
+const jokesListEl: HTMLElement | null = LibElement.get(`jokes-list`)
+const copyrightYearEl: HTMLElement | null = LibElement.get(`copyright-year`)
+const searchInputEl: HTMLElement | null = LibElement.get(`search-form`)
 
 // Call Functions
 const jokes = await getJokes()
@@ -31,14 +38,14 @@ renderCopyrightYear()
 
 // Functions
 async function getJokes() {
-  common.printFunction(`getJokes`)
+  LibLog.logFunction(`getJokes`)
 
   let thisData: any = {
     jokes: [],
     timestamp: dayjs().unix(),
   }
 
-  const storageData = common.getLocalStorageItem(common.strJokes)
+  const storageData = LibLocalStorage.get(LibLocalStorage.KEY_JOKES)
   if (storageData) {
     thisData = JSON.parse(String(storageData))
   }
@@ -60,7 +67,7 @@ async function getJokes() {
         timestamp: common.now.unix(),
       }
 
-      common.setLocalStorageItem(common.strJokes, JSON.stringify(thisData))
+      LibLocalStorage.set(LibLocalStorage.KEY_JOKES, JSON.stringify(thisData))
     }
   }
   // console.log(`thisData`, thisData)
@@ -69,9 +76,9 @@ async function getJokes() {
 }
 
 async function renderJokesList(jokes: any) {
-  common.printFunction(`renderJokesList`)
+  LibLog.logFunction(`renderJokesList`)
 
-  console.log(`jokes`, jokes)
+  LibLog.logVariable(`jokes`, jokes)
 
   if (jokesListEl && jokes && jokes.length > 0) {
     jokesListEl.innerHTML = ``
@@ -97,7 +104,7 @@ async function renderJokesList(jokes: any) {
 }
 
 function searchJokes(jokes: any): void {
-  common.printFunction(`searchJokes`)
+  LibLog.logFunction(`searchJokes`)
 
   if (searchInputEl) {
     searchInputEl.addEventListener(`input`, function (event) {
@@ -107,20 +114,20 @@ function searchJokes(jokes: any): void {
       let thisJokes = jokes
 
       if (search && search !== "") {
-        console.log(`search`, search)
+        LibLog.logVariable(`search`, search)
         thisJokes = jokes.filter(({ name }) =>
           name.toLowerCase().includes(search.toLowerCase())
         )
       }
 
-      console.log(`thisJokes`, thisJokes)
+      LibLog.logVariable(`thisJokes`, thisJokes)
       renderJokesList(thisJokes)
     })
   }
 }
 
 function renderCopyrightYear() {
-  common.printFunction(`renderCopyrightYear`)
+  LibLog.logFunction(`renderCopyrightYear`)
 
   if (copyrightYearEl) {
     const copyrightYear: any =

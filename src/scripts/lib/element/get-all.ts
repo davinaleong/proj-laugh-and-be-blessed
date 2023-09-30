@@ -2,7 +2,7 @@ import { DATA_ELEMENT_ATTR } from "./variables"
 
 function getAll(
   name: string,
-  parent: HTMLElement | null
+  parent: HTMLElement | null = null
 ): NodeListOf<HTMLElement> {
   if (parent) {
     return parent.querySelectorAll(`[${DATA_ELEMENT_ATTR}]="${name}"`)

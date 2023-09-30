@@ -1,10 +1,10 @@
 import { LibLogInterface } from "./../interfaces"
 import logFunction from "./log-function"
-import logValue from "./log-value"
+import logVariable from "./log-variable"
 
 const LibLog: LibLogInterface = {
   logFunction,
-  logValue,
+  logVariable,
 }
 
 export default LibLog
