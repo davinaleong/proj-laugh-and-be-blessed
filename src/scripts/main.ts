@@ -8,7 +8,7 @@ const strError: string = `ERROR`
 const strSuccess: string = `SUCCESS`
 const cookieLength = 14
 
-const url: string = `https://davinas-cms.herokuapp.com/api/davdevs/jokes?perPage=1000&column=name`
+const url: string = `https://proj-davinas-cms.test/api/davdevs/jokes?perPage=1000&column=name`
 const year: number = 2023
 
 const jokesListEl: HTMLInputElement | null = document.querySelector(
