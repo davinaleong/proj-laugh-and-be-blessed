@@ -1,6 +1,20 @@
-@tailwind base;
-@tailwind components;
+// @tailwind base;
+// @tailwind components;
+
+// @import "./fonts";
+
+// @tailwind utilities;
 
 @import "./fonts";
-
-@tailwind utilities;
+@import "./mixins";
+@import "./functions";
+@import "./maps";
+@import "./reset";
+@import "./base";
+@import "./buttons";
+@import "./typography";
+@import "./header";
+@import "./footer";
+@import "./cards";
+@import "./jokes";
+@import "./helpers";
