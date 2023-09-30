@@ -2,6 +2,7 @@ export interface LibInterface {
   LibLog: LibLogInterface
   LibLocalStorage: LibLocalStorageInterface
   LibElement: LibElementInterface
+  LibDate: LibDateInterface
 }
 
 export interface LibLogInterface {
@@ -25,4 +26,11 @@ export interface LibElementInterface {
     value: string | boolean | number | null,
     attr: string
   ): void
+}
+
+export interface LibDateInterface {
+  YEAR: number
+  DATE_FORMAT_YYYY: string
+  DATE_FORMAT_DD_MMM_YYYY: string
+  now: any
 }

@@ -4,6 +4,7 @@ import dayjs from "dayjs"
 import LibLog from "./lib/log"
 import LibLocalStorage from "./lib/localStorage"
 import LibElement from "./lib/element"
+import LibDate from "./lib/date"
 
 console.log(`main.ts loaded`)
 
@@ -14,17 +15,6 @@ const cookieLength = 14
 
 const url: string = `https://proj-davinas-cms.test/api/davdevs/jokes?perPage=1000&column=name`
 const year: number = 2023
-
-// const jokesListEl: HTMLInputElement | null = document.querySelector(
-//   `[${common.dataElementAttr}="jokes-list"]`
-// ) as HTMLInputElement | null
-// const copyrightYearEl: HTMLInputElement | null = document.querySelector(
-//   `[${common.dataElementAttr}="copyright-year"]`
-// ) as HTMLInputElement | null
-
-// const searchInputEl: HTMLInputElement | null = document.querySelector(
-//   `[${common.dataElementAttr}="search-form"] input`
-// )
 
 const jokesListEl: HTMLElement | null = LibElement.get(`jokes-list`)
 const copyrightYearEl: HTMLElement | null = LibElement.get(`copyright-year`)
@@ -52,7 +42,7 @@ async function getJokes() {
   // console.log(`thisData`, thisData)
 
   const thisDataTimestamp = dayjs(thisData.timestamp)
-  const nowTimestamp = dayjs(common.now.unix())
+  const nowTimestamp = dayjs(LibDate.now.unix())
   const timeDiff = nowTimestamp.diff(thisDataTimestamp, "days")
 
   if (thisData.jokes.length <= 0 || timeDiff > cookieLength) {
@@ -64,13 +54,12 @@ async function getJokes() {
     if (data.status === strSuccess) {
       thisData = {
         jokes: data?.jokes?.data,
-        timestamp: common.now.unix(),
+        timestamp: LibDate.now.unix(),
       }
 
       LibLocalStorage.set(LibLocalStorage.KEY_JOKES, JSON.stringify(thisData))
     }
   }
-  // console.log(`thisData`, thisData)
 
   return thisData.jokes
 }
@@ -89,7 +78,7 @@ async function renderJokesList(jokes: any) {
           <a href="./joke?slug=${slug}" class="card shadow-v-br-400">
             <h3 class="card__title">${index + 1}) ${title}</h3>
             <p class="card__date">Written on: ${dayjs(created_at).format(
-              common.strDateFormat
+              LibDate.DATE_FORMAT_DD_MMM_YYYY
             )}</p>
           </a>
         `
@@ -131,8 +120,8 @@ function renderCopyrightYear() {
 
   if (copyrightYearEl) {
     const copyrightYear: any =
-      Number(common.now.format(`YYYY`)) !== year
-        ? `${year} &ndash; ${common.now.format(`YYYY`)}`
+      Number(LibDate.now.format(LibDate.DATE_FORMAT_YYYY)) !== year
+        ? `${year} &ndash; ${LibDate.now.format(LibDate.DATE_FORMAT_YYYY)}`
         : `${year}`
     copyrightYearEl.innerHTML = copyrightYear
   }
