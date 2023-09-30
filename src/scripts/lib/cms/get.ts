@@ -4,7 +4,8 @@ import { STATUS_SUCCESS } from "./variables"
 async function get(url: string): Promise<any> {
   try {
     const response = await fetch(url)
-    return response.json()
+    const data = await response.json()
+    return data
   } catch (error: any) {
     logVariable(`error`, error)
     return null
