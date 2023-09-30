@@ -1,8 +1,8 @@
-import { LibLog } from "./interfaces"
+import { LibLogInterface } from "./../interfaces"
 import logFunction from "./log-function"
 import logValue from "./log-value"
 
-const LibLog: LibLog = {
+const LibLog: LibLogInterface = {
   logFunction,
   logValue,
 }
