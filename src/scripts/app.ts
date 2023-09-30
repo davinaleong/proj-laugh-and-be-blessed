@@ -1,3 +1,4 @@
+import "./../styles/app.scss"
 import dayjs from "dayjs"
 import * as common from "./common"
 
