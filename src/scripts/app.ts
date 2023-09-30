@@ -5,17 +5,11 @@ import LibLog from "./lib/log"
 import LibLocalStorage from "./lib/localStorage"
 import LibElement from "./lib/element"
 import LibDate from "./lib/date"
+import LibCms from "./lib/cms"
 
-console.log(`main.ts loaded`)
+console.log(`app.ts loaded`)
 
 // Variables
-const strError: string = `ERROR`
-const strSuccess: string = `SUCCESS`
-const cookieLength = 14
-
-const url: string = `https://proj-davinas-cms.test/api/davdevs/jokes?perPage=1000&column=name`
-const year: number = 2023
-
 const jokesListEl: HTMLElement | null = LibElement.get(`jokes-list`)
 const copyrightYearEl: HTMLElement | null = LibElement.get(`copyright-year`)
 const searchInputEl: HTMLElement | null = LibElement.get(`search-form`)
@@ -45,13 +39,12 @@ async function getJokes() {
   const nowTimestamp = dayjs(LibDate.now.unix())
   const timeDiff = nowTimestamp.diff(thisDataTimestamp, "days")
 
-  if (thisData.jokes.length <= 0 || timeDiff > cookieLength) {
+  if (thisData.jokes.length <= 0 || timeDiff > LibLocalStorage.COOKIE_LENGTH) {
     console.log(`Fetch new jokes`)
 
-    const response = await window.fetch(url)
-    const data = await response.json()
+    const data = LibCms.get(LibCms.url())
 
-    if (data.status === strSuccess) {
+    if (data.status === LibCms.STATUS_SUCCESS) {
       thisData = {
         jokes: data?.jokes?.data,
         timestamp: LibDate.now.unix(),
@@ -117,6 +110,8 @@ function searchJokes(jokes: any): void {
 
 function renderCopyrightYear() {
   LibLog.logFunction(`renderCopyrightYear`)
+
+  const year: number = LibDate.YEAR
 
   if (copyrightYearEl) {
     const copyrightYear: any =

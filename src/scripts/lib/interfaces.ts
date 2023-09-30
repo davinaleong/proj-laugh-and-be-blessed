@@ -13,6 +13,7 @@ export interface LibLogInterface {
 
 export interface LibLocalStorageInterface {
   KEY_JOKES: string
+  COOKIE_LENGTH: number
   get(key: string): string | null
   set(key: string, item: string): void
 }
